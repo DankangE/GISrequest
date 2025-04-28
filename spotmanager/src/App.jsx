@@ -1,16 +1,25 @@
-import logo from "./logo.svg";
+import React, { useState } from "react";
 import "./App.css";
-import { Router, Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import SpotMap from "./pages/SpotMap";
-import Root from "./components/layouts/Root";
+import SpotList from "./pages/SpotList";
 import GeoJsonLayout from "./components/layouts/GeoJsonLayout";
 
 function App() {
+  const [selectedSpot, setSelectedSpot] = useState(null);
+
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<Root />} /> */}
-        <Route path="" element={<SpotMap />} />
+        <Route
+          path=""
+          element={
+            <div style={{ display: "flex" }}>
+              <SpotList onSelectSpot={setSelectedSpot} />
+              <SpotMap selectedSpot={selectedSpot} />
+            </div>
+          }
+        />
         <Route path="/side" element={<GeoJsonLayout />} />
       </Routes>
     </BrowserRouter>

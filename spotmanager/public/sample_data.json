@@ -1,0 +1,191 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "샘플 지역 1",
+        "type": "G003",
+        "location": {
+          "lat": 37.5665,
+          "lon": 126.9780,
+          "alt": 50.0,
+          "rel_alt": 10.0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [126.9780, 37.5665],
+            [126.9785, 37.5665],
+            [126.9785, 37.5670],
+            [126.9780, 37.5670],
+            [126.9780, 37.5665]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "샘플 지역 2",
+        "type": "G002",
+        "location": {
+          "lat": 35.1796,
+          "lon": 129.0756,
+          "alt": 45.0,
+          "rel_alt": 8.0
+        }
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [129.0756, 35.1796],
+          [129.0761, 35.1801]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "샘플 지역 3",
+        "type": "G001",
+        "location": {
+          "lat": 35.1595,
+          "lon": 126.8526,
+          "alt": 55.0,
+          "rel_alt": 12.0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [126.8526, 35.1595]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "샘플 지역 4",
+        "type": "G003",
+        "location": {
+          "lat": 37.4563,
+          "lon": 126.7052,
+          "alt": 50.0,
+          "rel_alt": 10.0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [126.7052, 37.4563],
+            [126.7057, 37.4563],
+            [126.7057, 37.4568],
+            [126.7052, 37.4568],
+            [126.7052, 37.4563]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "샘플 지역 5",
+        "type": "G002",
+        "location": {
+          "lat": 35.5384,
+          "lon": 129.3114,
+          "alt": 45.0,
+          "rel_alt": 8.0
+        }
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [129.3114, 35.5384],
+          [129.3119, 35.5389]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "샘플 지역 6",
+        "type": "G001",
+        "location": {
+          "lat": 35.8714,
+          "lon": 128.6014,
+          "alt": 55.0,
+          "rel_alt": 12.0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [128.6014, 35.8714]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "샘플 지역 7",
+        "type": "G003",
+        "location": {
+          "lat": 37.5665,
+          "lon": 126.5780,
+          "alt": 50.0,
+          "rel_alt": 10.0
+        }
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [126.5780, 37.5665],
+            [126.5785, 37.5665],
+            [126.5785, 37.5670],
+            [126.5780, 37.5670],
+            [126.5780, 37.5665]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "샘플 지역 8",
+        "type": "G002",
+        "location": {
+          "lat": 37.5665,
+          "lon": 127.4780,
+          "alt": 50.0,
+          "rel_alt": 10.0
+        }
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.4780, 37.5665],
+          [127.4785, 37.5670]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "샘플 지역 9",
+        "type": "G001",
+        "location": {
+          "lat": 37.5665,
+          "lon": 127.9780,
+          "alt": 50.0,
+          "rel_alt": 10.0
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9780, 37.5665]
+      }
+    }
+  ]
+} 
