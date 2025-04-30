@@ -3,6 +3,7 @@
   "features": [
     {
       "type": "Feature",
+      "objectId": 1,
       "properties": {
         "name": "샘플 지역 1",
         "type": "G003",
@@ -11,7 +12,8 @@
           "lon": 126.9780,
           "alt": 50.0,
           "rel_alt": 10.0
-        }
+        },
+        "Notes": "This is a note for Sample Area 1."
       },
       "geometry": {
         "type": "Polygon",
@@ -28,6 +30,7 @@
     },
     {
       "type": "Feature",
+      "objectId": 2,
       "properties": {
         "name": "샘플 지역 2",
         "type": "G002",
@@ -36,18 +39,20 @@
           "lon": 129.0756,
           "alt": 45.0,
           "rel_alt": 8.0
-        }
+        },
+        "Notes": "This is a note for Sample Area 2."
       },
       "geometry": {
         "type": "LineString",
         "coordinates": [
           [129.0756, 35.1796],
-          [129.0761, 35.1801]
+          [129.0869, 35.1813]
         ]
       }
     },
     {
       "type": "Feature",
+      "objectId": 3,
       "properties": {
         "name": "샘플 지역 3",
         "type": "G001",
@@ -56,7 +61,8 @@
           "lon": 126.8526,
           "alt": 55.0,
           "rel_alt": 12.0
-        }
+        },
+        "Notes": "This is a note for Sample Area 3."
       },
       "geometry": {
         "type": "Point",
@@ -65,6 +71,7 @@
     },
     {
       "type": "Feature",
+      "objectId": 4,
       "properties": {
         "name": "샘플 지역 4",
         "type": "G003",
@@ -73,7 +80,8 @@
           "lon": 126.7052,
           "alt": 50.0,
           "rel_alt": 10.0
-        }
+        },
+        "Notes": "This is a note for Sample Area 4."
       },
       "geometry": {
         "type": "Polygon",
@@ -90,6 +98,7 @@
     },
     {
       "type": "Feature",
+      "objectId": 5,
       "properties": {
         "name": "샘플 지역 5",
         "type": "G002",
@@ -98,7 +107,8 @@
           "lon": 129.3114,
           "alt": 45.0,
           "rel_alt": 8.0
-        }
+        },
+        "Notes": "This is a note for Sample Area 5."
       },
       "geometry": {
         "type": "LineString",
@@ -110,6 +120,7 @@
     },
     {
       "type": "Feature",
+      "objectId": 6,
       "properties": {
         "name": "샘플 지역 6",
         "type": "G001",
@@ -118,7 +129,8 @@
           "lon": 128.6014,
           "alt": 55.0,
           "rel_alt": 12.0
-        }
+        },
+        "Notes": "This is a note for Sample Area 6."
       },
       "geometry": {
         "type": "Point",
@@ -127,6 +139,7 @@
     },
     {
       "type": "Feature",
+      "objectId": 7,
       "properties": {
         "name": "샘플 지역 7",
         "type": "G003",
@@ -135,7 +148,8 @@
           "lon": 126.5780,
           "alt": 50.0,
           "rel_alt": 10.0
-        }
+        },
+        "Notes": "This is a note for Sample Area 7."
       },
       "geometry": {
         "type": "Polygon",
@@ -152,6 +166,7 @@
     },
     {
       "type": "Feature",
+      "objectId": 8,
       "properties": {
         "name": "샘플 지역 8",
         "type": "G002",
@@ -160,7 +175,8 @@
           "lon": 127.4780,
           "alt": 50.0,
           "rel_alt": 10.0
-        }
+        },
+        "Notes": "This is a note for Sample Area 8."
       },
       "geometry": {
         "type": "LineString",
@@ -172,6 +188,7 @@
     },
     {
       "type": "Feature",
+      "objectId": 9,
       "properties": {
         "name": "샘플 지역 9",
         "type": "G001",
@@ -180,11 +197,711 @@
           "lon": 127.9780,
           "alt": 50.0,
           "rel_alt": 10.0
-        }
+        },
+        "Notes": "This is a note for Sample Area 9."
       },
       "geometry": {
         "type": "Point",
         "coordinates": [127.9780, 37.5665]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 10,
+      "properties": {
+        "name": "샘플 지역 10",
+        "type": "G001",
+        "location": {
+          "lat": 37.5666,
+          "lon": 127.9781,
+          "alt": 51.0,
+          "rel_alt": 11.0
+        },
+        "Notes": "This is a note for Sample Area 10."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9781, 37.5666]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 11,
+      "properties": {
+        "name": "샘플 지역 11",
+        "type": "G001",
+        "location": {
+          "lat": 37.5667,
+          "lon": 127.9782,
+          "alt": 52.0,
+          "rel_alt": 12.0
+        },
+        "Notes": "This is a note for Sample Area 11."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9782, 37.5667]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 12,
+      "properties": {
+        "name": "샘플 지역 12",
+        "type": "G001",
+        "location": {
+          "lat": 37.5668,
+          "lon": 127.9783,
+          "alt": 53.0,
+          "rel_alt": 13.0
+        },
+        "Notes": "This is a note for Sample Area 12."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9783, 37.5668]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 13,
+      "properties": {
+        "name": "샘플 지역 13",
+        "type": "G001",
+        "location": {
+          "lat": 37.5669,
+          "lon": 127.9784,
+          "alt": 54.0,
+          "rel_alt": 14.0
+        },
+        "Notes": "This is a note for Sample Area 13."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9784, 37.5669]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 14,
+      "properties": {
+        "name": "샘플 지역 14",
+        "type": "G001",
+        "location": {
+          "lat": 37.5670,
+          "lon": 127.9785,
+          "alt": 55.0,
+          "rel_alt": 15.0
+        },
+        "Notes": "This is a note for Sample Area 14."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9785, 37.5670]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 15,
+      "properties": {
+        "name": "샘플 지역 15",
+        "type": "G001",
+        "location": {
+          "lat": 37.5671,
+          "lon": 127.9786,
+          "alt": 56.0,
+          "rel_alt": 16.0
+        },
+        "Notes": "This is a note for Sample Area 15."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9786, 37.5671]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 16,
+      "properties": {
+        "name": "샘플 지역 16",
+        "type": "G001",
+        "location": {
+          "lat": 37.5672,
+          "lon": 127.9787,
+          "alt": 57.0,
+          "rel_alt": 17.0
+        },
+        "Notes": "This is a note for Sample Area 16."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9787, 37.5672]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 17,
+      "properties": {
+        "name": "샘플 지역 17",
+        "type": "G001",
+        "location": {
+          "lat": 37.5673,
+          "lon": 127.9788,
+          "alt": 58.0,
+          "rel_alt": 18.0
+        },
+        "Notes": "This is a note for Sample Area 17."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9788, 37.5673]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 18,
+      "properties": {
+        "name": "샘플 지역 18",
+        "type": "G001",
+        "location": {
+          "lat": 37.5674,
+          "lon": 127.9789,
+          "alt": 59.0,
+          "rel_alt": 19.0
+        },
+        "Notes": "This is a note for Sample Area 18."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9789, 37.5674]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 19,
+      "properties": {
+        "name": "샘플 지역 19",
+        "type": "G001",
+        "location": {
+          "lat": 37.5675,
+          "lon": 127.9790,
+          "alt": 60.0,
+          "rel_alt": 20.0
+        },
+        "Notes": "This is a note for Sample Area 19."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9790, 37.5675]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 20,
+      "properties": {
+        "name": "샘플 지역 20",
+        "type": "G001",
+        "location": {
+          "lat": 37.5676,
+          "lon": 127.9791,
+          "alt": 61.0,
+          "rel_alt": 21.0
+        },
+        "Notes": "This is a note for Sample Area 20."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [127.9791, 37.5676]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 21,
+      "properties": {
+        "name": "샘플 지역 21",
+        "type": "G002",
+        "location": {
+          "lat": 37.5677,
+          "lon": 127.9792,
+          "alt": 62.0,
+          "rel_alt": 22.0
+        },
+        "Notes": "This is a note for Sample Area 21."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9792, 37.5677],
+          [127.9793, 37.5678]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 22,
+      "properties": {
+        "name": "샘플 지역 22",
+        "type": "G002",
+        "location": {
+          "lat": 37.5678,
+          "lon": 127.9793,
+          "alt": 63.0,
+          "rel_alt": 23.0
+        },
+        "Notes": "This is a note for Sample Area 22."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9793, 37.5678],
+          [127.9794, 37.5679]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 23,
+      "properties": {
+        "name": "샘플 지역 23",
+        "type": "G002",
+        "location": {
+          "lat": 37.5679,
+          "lon": 127.9794,
+          "alt": 64.0,
+          "rel_alt": 24.0
+        },
+        "Notes": "This is a note for Sample Area 23."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9794, 37.5679],
+          [127.9795, 37.5680]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 24,
+      "properties": {
+        "name": "샘플 지역 24",
+        "type": "G002",
+        "location": {
+          "lat": 37.5680,
+          "lon": 127.9795,
+          "alt": 65.0,
+          "rel_alt": 25.0
+        },
+        "Notes": "This is a note for Sample Area 24."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9795, 37.5680],
+          [127.9796, 37.5681]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 25,
+      "properties": {
+        "name": "샘플 지역 25",
+        "type": "G002",
+        "location": {
+          "lat": 37.5681,
+          "lon": 127.9796,
+          "alt": 66.0,
+          "rel_alt": 26.0
+        },
+        "Notes": "This is a note for Sample Area 25."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9796, 37.5681],
+          [127.9797, 37.5682]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 26,
+      "properties": {
+        "name": "샘플 지역 26",
+        "type": "G002",
+        "location": {
+          "lat": 37.5682,
+          "lon": 127.9797,
+          "alt": 67.0,
+          "rel_alt": 27.0
+        },
+        "Notes": "This is a note for Sample Area 26."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9797, 37.5682],
+          [127.9798, 37.5683]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 27,
+      "properties": {
+        "name": "샘플 지역 27",
+        "type": "G002",
+        "location": {
+          "lat": 37.5683,
+          "lon": 127.9798,
+          "alt": 68.0,
+          "rel_alt": 28.0
+        },
+        "Notes": "This is a note for Sample Area 27."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9798, 37.5683],
+          [127.9799, 37.5684]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 28,
+      "properties": {
+        "name": "샘플 지역 28",
+        "type": "G002",
+        "location": {
+          "lat": 37.5684,
+          "lon": 127.9799,
+          "alt": 69.0,
+          "rel_alt": 29.0
+        },
+        "Notes": "This is a note for Sample Area 28."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9799, 37.5684],
+          [127.9800, 37.5685]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 29,
+      "properties": {
+        "name": "샘플 지역 29",
+        "type": "G002",
+        "location": {
+          "lat": 37.5685,
+          "lon": 127.9800,
+          "alt": 70.0,
+          "rel_alt": 30.0
+        },
+        "Notes": "This is a note for Sample Area 29."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9800, 37.5685],
+          [127.9801, 37.5686]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 30,
+      "properties": {
+        "name": "샘플 지역 30",
+        "type": "G002",
+        "location": {
+          "lat": 37.5686,
+          "lon": 127.9801,
+          "alt": 71.0,
+          "rel_alt": 31.0
+        },
+        "Notes": "This is a note for Sample Area 30."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [127.9801, 37.5686],
+          [127.9802, 37.5687]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 31,
+      "properties": {
+        "name": "샘플 지역 31",
+        "type": "G003",
+        "location": {
+          "lat": 37.5687,
+          "lon": 127.9802,
+          "alt": 72.0,
+          "rel_alt": 32.0
+        },
+        "Notes": "This is a note for Sample Area 31."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [127.9802, 37.5687],
+            [127.9803, 37.5687],
+            [127.9803, 37.5688],
+            [127.9802, 37.5688],
+            [127.9802, 37.5687]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 32,
+      "properties": {
+        "name": "샘플 지역 32",
+        "type": "G003",
+        "location": {
+          "lat": 37.5688,
+          "lon": 127.6803,
+          "alt": 73.0,
+          "rel_alt": 33.0
+        },
+        "Notes": "This is a note for Sample Area 32."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [127.6803, 37.5688],
+            [127.6804, 37.5688],
+            [127.6804, 37.5689],
+            [127.6803, 37.5689],
+            [127.6803, 37.5688]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 33,
+      "properties": {
+        "name": "샘플 지역 33",
+        "type": "G003",
+        "location": {
+          "lat": 37.5689,
+          "lon": 127.8804,
+          "alt": 74.0,
+          "rel_alt": 34.0
+        },
+        "Notes": "This is a note for Sample Area 33."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [127.8804, 37.5689],
+            [127.8805, 37.5689],
+            [127.8805, 37.5690],
+            [127.8804, 37.5690],
+            [127.8804, 37.5689]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 34,
+      "properties": {
+        "name": "샘플 지역 34",
+        "type": "G003",
+        "location": {
+          "lat": 37.1690,
+          "lon": 126.9805,
+          "alt": 75.0,
+          "rel_alt": 35.0
+        },
+        "Notes": "This is a note for Sample Area 34."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [126.9805, 37.1690],
+            [126.9806, 37.1690],
+            [126.9806, 37.1691],
+            [126.9805, 37.1691],
+            [126.9805, 37.1690]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 35,
+      "properties": {
+        "name": "샘플 지역 35",
+        "type": "G003",
+        "location": {
+          "lat": 37.8691,
+          "lon": 127.5806,
+          "alt": 76.0,
+          "rel_alt": 36.0
+        },
+        "Notes": "This is a note for Sample Area 35."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [127.5806, 37.8691],
+            [127.5807, 37.8691],
+            [127.5807, 37.8692],
+            [127.5806, 37.8692],
+            [127.5806, 37.8691]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 36,
+      "properties": {
+        "name": "샘플 지역 36",
+        "type": "G003",
+        "location": {
+          "lat": 37.5692,
+          "lon": 126.9807,
+          "alt": 77.0,
+          "rel_alt": 37.0
+        },
+        "Notes": "This is a note for Sample Area 36."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [126.9807, 37.5692],
+            [126.9808, 37.5692],
+            [126.9808, 37.5693],
+            [126.9807, 37.5693],
+            [126.9807, 37.5692]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 37,
+      "properties": {
+        "name": "샘플 지역 37",
+        "type": "G003",
+        "location": {
+          "lat": 37.5693,
+          "lon": 127.9808,
+          "alt": 78.0,
+          "rel_alt": 38.0
+        },
+        "Notes": "This is a note for Sample Area 37."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [127.9808, 37.5693],
+            [127.9809, 37.5693],
+            [127.9809, 37.5694],
+            [127.9808, 37.5694],
+            [127.9808, 37.5693]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 38,
+      "properties": {
+        "name": "샘플 지역 38",
+        "type": "G003",
+        "location": {
+          "lat": 34.2694,
+          "lon": 127.5809,
+          "alt": 79.0,
+          "rel_alt": 39.0
+        },
+        "Notes": "This is a note for Sample Area 38."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [127.5809, 34.2694],
+            [127.5810, 34.2694],
+            [127.5810, 34.2695],
+            [127.5809, 34.2695],
+            [127.5809, 34.2694]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 39,
+      "properties": {
+        "name": "샘플 지역 39",
+        "type": "G003",
+        "location": {
+          "lat": 36.8695,
+          "lon": 127.9810,
+          "alt": 80.0,
+          "rel_alt": 40.0
+        },
+        "Notes": "This is a note for Sample Area 39."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [127.9810, 36.8695],
+            [127.9811, 36.8695],
+            [127.9811, 36.8696],
+            [127.9810, 36.8696],
+            [127.9810, 36.8695]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "objectId": 40,
+      "properties": {
+        "name": "샘플 지역 40",
+        "type": "G003",
+        "location": {
+          "lat": 36.5696,
+          "lon": 127.9811,
+          "alt": 81.0,
+          "rel_alt": 41.0
+        },
+        "Notes": "This is a note for Sample Area 40."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [127.9811, 36.5696],
+            [127.9812, 36.5696],
+            [127.9812, 36.5697],
+            [127.9811, 36.5697],
+            [127.9811, 36.5696]
+          ]
+        ]
       }
     }
   ]

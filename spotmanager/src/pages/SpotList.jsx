@@ -9,36 +9,40 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tabs,
+  Tab,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import G001Page from "./G001Page";
+import G002Page from "./G002Page";
+import G003Page from "./G003Page";
 
 export default function SpotList({ onSelectSpot }) {
   const [spots, setSpots] = useState([]);
   const [selectedSpot, setSelectedSpot] = useState(null);
-  console.log("Selected spot:", selectedSpot);
-  useEffect(() => {
-    // JSON 데이터 로드
-    fetch("./sample_data.json")
-      .then((res) => {
-        console.log("Response status:", res.status);
-        return res.json();
-      })
-      .then((data) => {
-        const features = Array.isArray(data.features) ? data.features : [];
-        setSpots(features);
-        if (features.length > 0) {
-          setSelectedSpot(features[0]);
-          onSelectSpot(features[0]); // 초기 선택된 스팟 전달
-        }
-      })
-      .catch((error) => {
-        console.error("데이터 로딩 중 오류 발생:", error);
-      });
-  }, [onSelectSpot]);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const spotTypes = ["G001", "G002", "G003"];
 
   const handleSelectSpot = (spot) => {
     setSelectedSpot(spot);
     onSelectSpot(spot);
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
+  const renderPage = () => {
+    switch (spotTypes[selectedTab]) {
+      case "G001":
+        return <G001Page onSelectSpot={onSelectSpot} />;
+      case "G002":
+        return <G002Page onSelectSpot={onSelectSpot} />;
+      case "G003":
+        return <G003Page onSelectSpot={onSelectSpot} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -47,110 +51,37 @@ export default function SpotList({ onSelectSpot }) {
         flexGrow: 1,
         p: 3,
         display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
       }}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
-          <Paper
-            sx={{
-              p: 2,
-              height: "calc(100vh - 48px)",
-              overflow: "auto",
-              position: "sticky",
-              top: 0,
-            }}
-          >
-            <Typography variant="h6" gutterBottom>
-              스팟 목록
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>이름</TableCell>
-                    <TableCell align="right">타입</TableCell>
-                    <TableCell align="right">위도</TableCell>
-                    <TableCell align="right">경도</TableCell>
-                    <TableCell align="right">고도</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {spots.map((spot, index) => {
-                    return (
-                      <TableRow
-                        key={index}
-                        sx={{
-                          cursor: "pointer",
-                          backgroundColor:
-                            selectedSpot === spot ? "#f0f0f0" : "white",
-                        }}
-                        onClick={() => handleSelectSpot(spot)}
-                      >
-                        <TableCell component="th" scope="row">
-                          {spot.properties.name}
-                        </TableCell>
-                        <TableCell align="right">
-                          {spot.properties.type}
-                        </TableCell>
-                        <TableCell align="right">
-                          {spot.properties.location.lat.toFixed(7)}
-                        </TableCell>
-                        <TableCell align="right">
-                          {spot.properties.location.lon.toFixed(7)}
-                        </TableCell>
-                        <TableCell align="right">
-                          {spot.properties.location.alt}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <Box
-              sx={{
-                p: 2,
-                height: "calc(100vh - 48px)",
-                ml: 2,
-              }}
-            >
-              <Typography variant="h6" gutterBottom>
-                상세 정보
-              </Typography>
-
-              {selectedSpot ? (
-                <Box>
-                  <Typography variant="h5" gutterBottom>
-                    {selectedSpot.properties.name}
-                  </Typography>
-                  <Typography variant="subtitle1" gutterBottom>
-                    타입: {selectedSpot.properties.type}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    위치 정보:
-                  </Typography>
-                  <Typography variant="body2" sx={{ pl: 2 }}>
-                    위도: {selectedSpot.properties.location.lat.toFixed(7)}
-                  </Typography>
-                  <Typography variant="body2" sx={{ pl: 2 }}>
-                    경도: {selectedSpot.properties.location.lon.toFixed(7)}
-                  </Typography>
-                  <Typography variant="body2" sx={{ pl: 2 }}>
-                    고도: {selectedSpot.properties.location.alt}
-                  </Typography>
-                  <Typography variant="body2" sx={{ pl: 2 }}>
-                    상대 고도: {selectedSpot.properties.location.rel_alt}
-                  </Typography>
-                </Box>
-              ) : (
-                <Typography>스팟을 선택하세요</Typography>
-              )}
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
+      <Paper
+        sx={{
+          p: 1,
+          width: "100%",
+          maxWidth: 400,
+          marginBottom: 2,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Tabs
+          value={selectedTab}
+          onChange={handleTabChange}
+          aria-label="spot type tabs"
+        >
+          {spotTypes.map((type, index) => (
+            <Tab
+              label={
+                type === "G001" ? "GCP" : type === "G002" ? "이착륙" : "임무"
+              }
+              key={index}
+            />
+          ))}
+        </Tabs>
+      </Paper>
+      {renderPage()}
     </Box>
   );
 }

@@ -1,5 +1,6 @@
 [
   {
+    "objectId": 1,
     "name": "샘플 지역 1",
     "type": "G001",
     "location": {
@@ -22,6 +23,7 @@
     }
   },
   {
+    "objectId": 2,
     "name": "샘플 지역 2",
     "type": "G002",
     "location": {
@@ -44,6 +46,7 @@
     }
   },
   {
+    "objectId": 3,
     "name": "샘플 지역 3",
     "type": "G003",
     "location": {
