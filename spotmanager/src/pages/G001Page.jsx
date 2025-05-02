@@ -17,8 +17,50 @@ import "tui-grid/dist/tui-grid.css";
 import TuiGrid from "@toast-ui/react-grid";
 import SpotMap from "./SpotMap";
 
-export default function G001Page() {
-  const [spots, setSpots] = useState([]);
+// 상세정보 모달 스타일
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "1px solid #ddd",
+  boxShadow: 24,
+  p: 4,
+  maxHeight: "80vh",
+  overflow: "auto",
+};
+
+// 그리드 옵션 및 테마
+const gridOptions = {
+  header: {
+    height: 40,
+    background: "#ffffff",
+    borderWidth: 1,
+  },
+  row: {
+    height: 30,
+  },
+  cell: {
+    padding: 6,
+  },
+  scrollbar: {
+    emptySpace: 8,
+    border: "#eee",
+    background: "#f9f9f9",
+    thumb: "#ddd",
+    active: "#bbb",
+  },
+  selection: {
+    background: "#f8f8f8",
+    border: "#ccc",
+  },
+};
+
+export default function G001Page({ mapData }) {
+  console.log(mapData);
+  const [spots, setSpots] = useState(mapData);
   const [editingSpots, setEditingSpots] = useState([]);
   const [dirtyRows, setDirtyRows] = useState(new Set());
   const [selectedSpot, setSelectedSpot] = useState(null);
@@ -39,7 +81,14 @@ export default function G001Page() {
   // TOAST UI Grid 컬럼 정의
   const columns = useMemo(
     () => [
-      { name: "name", header: "이름", width: 180, editor: "text" },
+      {
+        name: "name",
+        header: "이름",
+        width: 180,
+        editor: "text",
+        sortable: true,
+        selectable: false,
+      },
       {
         name: "lat",
         header: "위도",
@@ -50,6 +99,8 @@ export default function G001Page() {
         },
         align: "right",
         editor: "text",
+        sortable: false,
+        selectable: false,
       },
       {
         name: "lon",
@@ -61,6 +112,8 @@ export default function G001Page() {
         },
         align: "right",
         editor: "text",
+        sortable: false,
+        selectable: false,
       },
       {
         name: "rel_alt",
@@ -68,6 +121,8 @@ export default function G001Page() {
         width: 100,
         align: "right",
         editor: "text",
+        sortable: false,
+        selectable: false,
       },
       {
         name: "note",
@@ -75,6 +130,8 @@ export default function G001Page() {
         minWidth: 465,
         width: "auto",
         editor: "text",
+        sortable: false,
+        selectable: false,
       },
     ],
     []
@@ -83,51 +140,31 @@ export default function G001Page() {
   // Grid 이벤트 핸들러
   const handleGridClick = (ev) => {
     if (ev.rowKey !== undefined) {
-      // 클릭된 이벤트가 셀 편집이 아닌 경우에만 행 포커스 처리
-      if (
-        ev.targetType !== "cell" ||
-        !ev.nativeEvent.detail ||
-        ev.nativeEvent.detail === 1
-      ) {
-        const clickedSpot = spots[ev.rowKey];
+      // 클릭된 스팟 데이터 가져오기
+      const clickedSpot = spots[ev.rowKey];
 
-        // 이미 선택된 행인지 확인
-        const isRowAlreadySelected = selectedSpot === clickedSpot;
+      // 선택된 스팟 업데이트
+      setSelectedSpot(clickedSpot);
 
-        // 현재 행 선택 상태 업데이트
-        setSelectedSpot(clickedSpot);
+      // 포커스된 셀 정보 업데이트
+      setFocusedCell(
+        ev.columnName ? { rowKey: ev.rowKey, columnName: ev.columnName } : null
+      );
 
-        // 셀 정보가 있고, 편집 가능한 컬럼을 클릭한 경우
-        if (ev.columnName && ev.targetType === "cell") {
-          // 이미 선택된 행이거나 포커스된 셀을 다시 클릭한 경우 바로 에디터 모드로
-          const isFocusedCell =
-            focusedCell &&
-            focusedCell.rowKey === ev.rowKey &&
-            focusedCell.columnName === ev.columnName;
-
-          if (isRowAlreadySelected || isFocusedCell) {
-            // 편집 모드 활성화
-            if (gridRef.current) {
-              try {
-                const grid = gridRef.current.getInstance();
-                const column = grid.getColumn(ev.columnName);
-                // 편집 가능한 컬럼인 경우에만 에디터 모드 활성화
-                if (column && column.editor) {
-                  grid.startEditing(ev.rowKey, ev.columnName);
-                }
-              } catch (error) {
-                console.error("편집 모드 전환 중 오류:", error);
-              }
+      // 셀을 클릭했을 때 바로 편집 모드 활성화
+      if (ev.columnName && ev.targetType === "cell") {
+        if (gridRef.current) {
+          try {
+            const grid = gridRef.current.getInstance();
+            const column = grid.getColumn(ev.columnName);
+            // 편집 가능한 컬럼인 경우에만 에디터 모드 활성화
+            if (column && column.editor) {
+              grid.startEditing(ev.rowKey, ev.columnName);
             }
+          } catch (error) {
+            console.error("편집 모드 전환 중 오류:", error);
           }
         }
-
-        // 포커스된 셀 정보 업데이트 (에디터 모드로 전환했어도 포커스 정보는 갱신)
-        setFocusedCell(
-          ev.columnName
-            ? { rowKey: ev.rowKey, columnName: ev.columnName }
-            : null
-        );
       }
     }
   };
@@ -217,21 +254,21 @@ export default function G001Page() {
     );
   }, [checkedRows]);
 
-  useEffect(() => {
-    // 로컬 JSON 파일에서 데이터 로드
-    fetch("/gcpData.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setSpots(data);
-        setEditingSpots(JSON.parse(JSON.stringify(data)));
-        if (data.length > 0) {
-          setSelectedSpot(data[0]); // 첫 번째 스팟을 초기 선택
-        }
-      })
-      .catch((error) => {
-        console.error("데이터 로딩 중 오류 발생:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // 로컬 JSON 파일에서 데이터 로드
+  //   fetch("/gcpData.json")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setSpots(data);
+  //       setEditingSpots(JSON.parse(JSON.stringify(data)));
+  //       if (data.length > 0) {
+  //         setSelectedSpot(data[0]); // 첫 번째 스팟을 초기 선택
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("데이터 로딩 중 오류 발생:", error);
+  //     });
+  // }, []);
 
   // 셀 편집 완료 이벤트 핸들러 추가
   const handleEditingFinish = (ev) => {
@@ -462,21 +499,6 @@ export default function G001Page() {
     setEditData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // 상세정보 모달 스타일
-  const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "1px solid #ddd",
-    boxShadow: 24,
-    p: 4,
-    maxHeight: "80vh",
-    overflow: "auto",
-  };
-
   // 상세정보 컴포넌트
   const DetailInfoContent = () => (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
@@ -536,28 +558,6 @@ export default function G001Page() {
       </Typography>
     </Box>
   );
-
-  // 그리드 옵션 및 테마
-  const gridOptions = {
-    header: {
-      height: 40,
-      background: "#ffffff",
-      borderWidth: 1,
-    },
-    row: {
-      height: 30,
-    },
-    cell: {
-      padding: 6,
-    },
-    scrollbar: {
-      emptySpace: 8,
-      border: "#eee",
-      background: "#f9f9f9",
-      thumb: "#ddd",
-      active: "#bbb",
-    },
-  };
 
   // 키보드 네비게이션 설정
   const keyboardConfig = {
@@ -658,7 +658,7 @@ export default function G001Page() {
       {/* 왼쪽 컨테이너 - 그리드와 상세정보 */}
       <div
         style={{
-          flex: "0 0 45%",
+          flex: "100 0 45%",
           marginRight: "16px",
           display: "flex",
           flexDirection: "column",
@@ -742,7 +742,7 @@ export default function G001Page() {
           >
             <TuiGrid
               ref={gridRef}
-              data={spots} // 그리드에 표시할 데이터 배열
+              data={mapData} // 그리드에 표시할 데이터 배열
               columns={columns}
               rowHeight={30}
               bodyHeight={gridHeight}
@@ -765,16 +765,23 @@ export default function G001Page() {
               onUncheck={(ev) =>
                 handleCheckboxChange({ ...ev, type: "uncheck" })
               }
-              selectionUnit="cell" // 선택 단위 row -> cell로 변경
+              selectionUnit="row" // cell에서 row로 변경
               minRowHeight={30}
               usageStatistics={false}
               theme={gridOptions}
               keyboardNavigation={keyboardConfig} // 키보드 네비게이션 설정 추가
               key="grid-component" // 컴포넌트가 리렌더링되어도 내부 상태 유지
+              selectableHeaders={false} // 헤더 클릭시 열 선택 비활성화
+              columnOptions={{
+                resizable: false,
+                frozenCount: 0,
+                minWidth: 100,
+              }}
               selection={{
-                unit: "cell", // row -> cell로 변경
+                unit: "row", // cell에서 row로 변경
                 type: "checkbox",
                 selectType: "multi",
+                enableClipboard: false,
               }}
             />
           </Paper>
@@ -782,7 +789,7 @@ export default function G001Page() {
       </div>
 
       {/* 오른쪽 지도 */}
-      <div
+      {/* <div
         ref={mapContainerRef}
         style={{
           flex: "1",
@@ -799,7 +806,7 @@ export default function G001Page() {
             onSelectSpot={setSelectedSpot}
           />
         )}
-      </div>
+      </div> */}
 
       {/* 상세정보 모달 */}
       <Modal
