@@ -1,142 +1,131 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Marker, OverlayView } from "@react-google-maps/api";
+import React, { useEffect, useState } from "react";
+import { Marker, InfoWindow } from "@react-google-maps/api";
 import { useMap } from "../../context/MapContext";
 
-// 레이블 스타일 정의
-const markerLabelStyle = {
-  backgroundColor: "rgba(255, 255, 255, 0.9)",
-  border: "1px solid #ccc",
-  borderRadius: "4px",
-  padding: "2px 4px",
-  fontSize: "10px",
-  fontWeight: "bold",
-  boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
-  color: "#333",
-  textAlign: "center",
-  width: "80px",
-  maxWidth: "100px",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-  position: "absolute",
-  transform: "translate(-50%, -50%)",
-  zIndex: 1000,
-};
+export default function MapMarkers() {
+  const {
+    map,
+    isLoaded,
+    spots,
+    selectedSpot,
+    setSelectedSpot,
+    updateMarkerPosition,
+    internalEditMode,
+  } = useMap();
+  const [zoomLevel, setZoomLevel] = useState(14);
+  const [editingSpot, setEditingSpot] = useState(null);
 
-// getPixelPositionOffset 함수 정의 (OverlayView에 필요)
-const getPixelPositionOffset = (width, height) => ({
-  x: -(width / 2),
-  y: -45, // 마커 중앙에 위치하도록 조정
-});
+  useEffect(() => {
+    if (map) {
+      // 줌 레벨 변경 이벤트 리스너 등록
+      const zoomListener = map.addListener("zoom_changed", () => {
+        setZoomLevel(map.getZoom());
+      });
 
-export default function MapMarkers({
-  internalEditMode = false,
-  onLocationUpdate = null,
-}) {
-  const { map, isLoaded, spots, selectedSpot, setSelectedSpot, panToSpot } =
-    useMap();
-  const [currentZoom, setCurrentZoom] = useState(15); // 기본 줌 레벨
+      // 초기 줌 레벨 설정
+      setZoomLevel(map.getZoom());
 
-  // 마커 드래그 핸들러
-  const handleMarkerDragEnd = (e) => {
-    if (onLocationUpdate && selectedSpot) {
-      const newLat = e.latLng.lat();
-      const newLng = e.latLng.lng();
-      console.log("Marker dragged to:", newLat, newLng);
-      onLocationUpdate(newLat, newLng);
+      // 컴포넌트 언마운트 시 리스너 제거
+      return () => {
+        window.google.maps.event.removeListener(zoomListener);
+      };
     }
-  };
+  }, [spots, isLoaded, map]);
+
+  // internalEditMode가 false가 될 때 편집 모드 해제
+  useEffect(() => {
+    if (!internalEditMode) {
+      setEditingSpot(null);
+    }
+  }, [internalEditMode]);
 
   // 마커 클릭 핸들러
   const handleMarkerClick = (spot) => {
-    console.log("Marker clicked for spot:", spot.name);
-    setSelectedSpot(spot);
-    panToSpot(spot);
+    if (
+      selectedSpot &&
+      selectedSpot.objectId === spot.objectId &&
+      internalEditMode
+    ) {
+      // internalEditMode가 true이고 선택된 마커를 클릭하면 편집 모드로 전환
+      setEditingSpot(spot);
+    } else {
+      // 다른 마커를 클릭하면 선택 모드로 전환
+      setSelectedSpot(spot);
+      setEditingSpot(null); // 편집 모드 해제
+    }
   };
 
-  // 줌 변경 핸들러
-  const handleZoomChanged = useCallback(() => {
-    if (map) {
-      const newZoom = map.getZoom();
-      setCurrentZoom(newZoom);
-    }
-  }, [map]);
-
-  // 줌 변경 감지를 위한 이벤트 리스너
-  useEffect(() => {
-    if (isLoaded && map) {
-      const listener = map.addListener("zoom_changed", handleZoomChanged);
-      return () => {
-        // 리스너 제거 시 window.google 사용
-        if (window.google && window.google.maps) {
-          window.google.maps.event.removeListener(listener);
-        }
-      };
-    }
-  }, [isLoaded, map, handleZoomChanged]);
-
-  // 선택된 스팟이 변경되면 지도 이동
-  useEffect(() => {
-    if (selectedSpot) {
-      panToSpot(selectedSpot);
-    }
-  }, [selectedSpot, panToSpot]);
+  // 마커 드래그 종료 핸들러
+  const handleMarkerDragEnd = (spot, event) => {
+    const newPosition = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng(),
+    };
+    updateMarkerPosition(spot.objectId, newPosition.lat, newPosition.lng);
+  };
 
   if (!isLoaded || !map) {
-    return null; // 맵이 로드되지 않았을 때는 렌더링하지 않음
+    return null;
+  }
+
+  if (!spots || spots.length === 0) {
+    return null;
   }
 
   return (
     <>
-      {spots.map((spot, index) => (
-        <React.Fragment key={index}>
-          <Marker
-            position={{ lat: spot.lat, lng: spot.lon }}
-            title={spot.name}
-            draggable={
-              internalEditMode &&
-              selectedSpot &&
-              selectedSpot.objectId === spot.objectId
-            }
-            onClick={() => handleMarkerClick(spot)}
-            icon={{
-              url:
-                selectedSpot && selectedSpot.objectId === spot.objectId
-                  ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-                  : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-            }}
-            onDragEnd={handleMarkerDragEnd}
-          />
-          {/* 줌 레벨이 14 이상일 때만 레이블 표시 */}
-          {currentZoom >= 16 && (
-            <OverlayView
+      {spots.map((spot, index) => {
+        // 마커 색상 결정
+        let markerColor;
+        if (editingSpot && editingSpot.objectId === spot.objectId) {
+          markerColor =
+            "http://maps.google.com/mapfiles/ms/icons/green-dot.png"; // 편집 모드: 초록색
+        } else if (selectedSpot && selectedSpot.objectId === spot.objectId) {
+          markerColor = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"; // 선택 모드: 파란색
+        } else {
+          markerColor = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"; // 일반 상태: 빨간색
+        }
+
+        // 편집 모드의 마커만 드래그 가능
+        const isDraggable =
+          editingSpot && editingSpot.objectId === spot.objectId;
+
+        return (
+          <React.Fragment key={spot.objectId || index}>
+            <Marker
               position={{ lat: spot.lat, lng: spot.lon }}
-              mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-              getPixelPositionOffset={getPixelPositionOffset}
-            >
-              <div
-                style={{
-                  ...markerLabelStyle,
-                  backgroundColor:
-                    selectedSpot && selectedSpot.objectId === spot.objectId
-                      ? "rgba(227, 242, 253, 0.9)"
-                      : "rgba(255, 255, 255, 0.9)",
-                  borderColor:
-                    selectedSpot && selectedSpot.objectId === spot.objectId
-                      ? "#1976d2"
-                      : "#ccc",
-                  fontWeight:
-                    selectedSpot && selectedSpot.objectId === spot.objectId
-                      ? "bold"
-                      : "normal",
+              title={spot.name}
+              onClick={() => handleMarkerClick(spot)}
+              draggable={isDraggable}
+              onDragEnd={(e) => handleMarkerDragEnd(spot, e)}
+              icon={{
+                url: markerColor,
+              }}
+            />
+            {zoomLevel > 15 && (
+              <Marker
+                position={{
+                  lat: spot.lat - 0.0003,
+                  lng: spot.lon,
                 }}
-              >
-                {spot.name}
-              </div>
-            </OverlayView>
-          )}
-        </React.Fragment>
-      ))}
+                icon={{
+                  url:
+                    "data:image/svg+xml;charset=UTF-8," +
+                    encodeURIComponent(`
+                    <svg width="100" height="30" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="100" height="30" fill="white" rx="5" ry="5" stroke="gray" stroke-width="1"/>
+                      <text x="50" y="20" font-family="Arial" font-size="12" text-anchor="middle" fill="black">${spot.name}</text>
+                    </svg>
+                  `),
+                  scaledSize: new window.google.maps.Size(100, 30),
+                  anchor: new window.google.maps.Point(50, 15),
+                }}
+                clickable={false}
+              />
+            )}
+          </React.Fragment>
+        );
+      })}
     </>
   );
 }

@@ -10,36 +10,48 @@ export default function Test() {
   const [mapData, setMapData] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
   const spotTypes = ["G001", "G002", "G003"];
+  const [updataData, setUpdataData] = useState(null);
 
+  // 데이터 로드
   useEffect(() => {
-    // 로컬 JSON 파일에서 데이터 로드
-    if (selectedTab === 0) {
-      fetch("/gcpData.json")
-        .then((res) => res.json())
-        .then((data) => {
-          setMapData(data);
-        })
-        .catch((error) => {
-          console.error("데이터 로딩 중 오류 발생:", error);
-        });
-    } else if (selectedTab === 1) {
-      fetch("/landingData.json")
-        .then((res) => res.json())
-        .then((data) => {
-          setMapData(data);
-        });
-    }
+    const loadData = async () => {
+      try {
+        let url = "";
+        if (selectedTab === 0) {
+          url = "/gcpData.json";
+        } else if (selectedTab === 1) {
+          url = "/landingData.json";
+        } else {
+          url = "/missionData.json";
+        }
+
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log("데이터 로드:", data);
+        setMapData(data);
+      } catch (error) {
+        console.error("데이터 로딩 중 오류 발생:", error);
+        setMapData([]);
+      }
+    };
+
+    loadData();
   }, [selectedTab]);
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
 
+  // 데이터 변경 핸들러
+  const handleDataChange = (newData) => {
+    setMapData(newData);
+  };
+
   return (
     <>
       <Paper
         sx={{
-          p: 1,
+          padding: 1,
           width: "100%",
           maxWidth: 400,
           marginBottom: 2,
@@ -62,24 +74,31 @@ export default function Test() {
           ))}
         </Tabs>
       </Paper>
-      <Box sx={{ display: "flex" }}>
-        {/* 왼쪽 영역에 렌더링될 컴포넌트 */}
-        {selectedTab === 0 && (
-          <G001Page mapData={mapData} setMapData={setMapData} />
-        )}
-        {selectedTab === 1 && <G002Page mapData={mapData} />}
-        {selectedTab === 2 && <G003Page mapData={mapData} />}
-        <MapLayout>
-          {/* 오버레이 영역에 렌더링될 SpotMap */}
-          <Box position="overlay">
-            <SpotMap
-              spots={mapData}
-              //   selectedSpot={selectedSpot}
-              //   onSelectSpot={handleSelectSpot}
+      <MapLayout>
+        <Box position="left" sx={{ width: "100%", height: "100%" }}>
+          {selectedTab === 0 && (
+            <G001Page
+              mapData={mapData}
+              setMapData={handleDataChange}
+              updataData={updataData}
+              setUpdataData={setUpdataData}
             />
-          </Box>
-        </MapLayout>
-      </Box>
+          )}
+          {selectedTab === 1 && (
+            <G002Page mapData={mapData} setMapData={handleDataChange} />
+          )}
+          {selectedTab === 2 && (
+            <G003Page mapData={mapData} setMapData={handleDataChange} />
+          )}
+        </Box>
+        <Box position="overlay" sx={{ width: "100%", height: "100%" }}>
+          <SpotMap
+            spots={mapData}
+            updataData={updataData}
+            setUpdataData={setUpdataData}
+          />
+        </Box>
+      </MapLayout>
     </>
   );
 }

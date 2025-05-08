@@ -19,12 +19,16 @@ const center = {
   lng: 126.978,
 };
 
-export default function StaticMap() {
-  const { handleMapLoad, handleMapUnmount } = useMap();
-  const [internalEditMode, setInternalEditMode] = useState(false);
+export default function StaticMap({ children }) {
+  const {
+    handleMapLoad,
+    handleMapUnmount,
+    internalEditMode,
+    setInternalEditMode,
+  } = useMap();
 
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyDmQ8RZkcVxrQn14N33_HA10QjWnrrHAVY", // API 키
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
   });
 
   // 지도 로드 핸들러
@@ -118,6 +122,7 @@ export default function StaticMap() {
           zoomControl: true,
         }}
       >
+        {children}
         {/* 마커는 별도 컴포넌트에서 랜더링 */}
       </GoogleMap>
     </div>
