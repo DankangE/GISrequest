@@ -103,7 +103,9 @@ export default function G001Page({ mapData, setMapData }) {
     const spot = spots[ev.rowKey];
     setSelectedSpot(spot);
     setMapSelectedSpot(spot);
-    panToSpot(spot);
+    if (spot && spot.lat && spot.lon) {
+      panToSpot(spot);
+    }
   };
 
   // 체크박스 변경 이벤트
@@ -141,33 +143,6 @@ export default function G001Page({ mapData, setMapData }) {
     const { rowKey, columnName, value } = ev;
     if (rowKey === undefined || columnName === undefined) return;
 
-    // 기본 유효성 검사
-    let errorMsg = "";
-    if (columnName === "name" && (!value || value.trim() === "")) {
-      errorMsg = "필수입력값입니다";
-    }
-
-    if (
-      (columnName === "lat" || columnName === "lon") &&
-      (value === "" || value === null)
-    ) {
-      errorMsg = "필수입력값입니다";
-    }
-
-    // 숫자 필드 검증
-    if (
-      ["lat", "lon", "rel_alt"].includes(columnName) &&
-      value !== "" &&
-      value !== null
-    ) {
-      const numRegex = /^-?\d+(\.\d{1,7})?$/;
-      if (!numRegex.test(value)) {
-        errorMsg = "숫자 형식이 올바르지 않습니다";
-      }
-    }
-
-    if (errorMsg) return;
-
     // 값 변환
     let parsedValue = value;
     if (["lat", "lon", "rel_alt"].includes(columnName)) {
@@ -184,6 +159,7 @@ export default function G001Page({ mapData, setMapData }) {
 
     // 값이 변경된 경우만 처리
     if (isValueChanged) {
+      const grid = gridRef.current.getInstance();
       // spots 업데이트
       const updatedSpots = spots.map((spot, index) => {
         if (index === rowKey) {
@@ -194,6 +170,10 @@ export default function G001Page({ mapData, setMapData }) {
 
       setSpots(updatedSpots);
       setDirtyRows((prev) => new Set(prev).add(rowKey));
+
+      setTimeout(() => {
+        grid.focusAt(rowKey, 0, true);
+      }, 100);
 
       // 체크박스 자동 체크
       if (gridRef.current && !checkedRows.has(rowKey)) {
@@ -347,6 +327,23 @@ export default function G001Page({ mapData, setMapData }) {
     }, 100);
   };
 
+  // 데이터 테스트
+  const handleAddTestData = () => {
+    const grid = gridRef.current.getInstance();
+    const focusedCell = grid.getFocusedCell().rowKey;
+    console.log("focusedCell_rowKey: ", focusedCell);
+    const data = grid.getData();
+    console.log("data: ", data);
+
+    setSpots([...spots]);
+    setTimeout(() => {
+      grid.focus(focusedCell, "name", true);
+    }, 100);
+    // setTimeout(() => {
+    //   grid.focusAt(10, 0, true);
+    // }, 100);
+  };
+
   // 화면 크기에 따른 그리드 높이 조정
   useEffect(() => {
     const updateGridHeight = () => {
@@ -367,11 +364,11 @@ export default function G001Page({ mapData, setMapData }) {
   }, []);
 
   // 지도에서 마커 클릭 시 그리드 포커스 연동
-  // useEffect(() => {
-  //   if (mapSelectedSpot) {
-  //     setSelectedSpot(mapSelectedSpot);
-  //   }
-  // }, [mapSelectedSpot]);
+  useEffect(() => {
+    if (mapSelectedSpot) {
+      setSelectedSpot(mapSelectedSpot);
+    }
+  }, [mapSelectedSpot]);
 
   // 상세정보 모달 컴포넌트
   const DetailInfoContent = () => (
@@ -414,94 +411,128 @@ export default function G001Page({ mapData, setMapData }) {
     <div
       style={{
         display: "flex",
+        flexDirection: "row",
+        width: "100%",
         height: "calc(100vh - 120px)",
+        maxHeight: "100vh",
         overflow: "hidden",
       }}
     >
-      {/* 그리드 컨테이너 */}
+      {/* 왼쪽 컨테이너 - 그리드와 상세정보 */}
       <div
         style={{
-          flex: 1,
+          flex: "100 0 45%",
           marginRight: "16px",
           display: "flex",
           flexDirection: "column",
           height: "100%",
+          overflow: "hidden",
         }}
       >
-        <Box
-          sx={{
+        {/* 그리드 */}
+        <div
+          style={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 1,
-            height: "40px",
+            flexDirection: "column",
+            height: "100%",
+            overflow: "hidden",
           }}
         >
-          <Typography variant="h6">스팟 목록</Typography>
-          <Box>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              onClick={handleAddRow}
-              startIcon={<AddIcon />}
-              sx={{ mr: 1 }}
-            >
-              추가
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={handleSaveCheckedRows}
-              startIcon={<SaveIcon />}
-              disabled={checkedRows.size === 0}
-              sx={{ mr: 1 }}
-            >
-              선택 저장 ({checkedRows.size})
-            </Button>
-            <Button
-              variant="contained"
-              color="success"
-              size="small"
-              onClick={handleSaveAllChanges}
-              startIcon={<SaveIcon />}
-              disabled={dirtyRows.size === 0}
-              sx={{ mr: 1 }}
-            >
-              전체 저장 ({dirtyRows.size})
-            </Button>
-            {selectedSpot && (
-              <IconButton
-                color="primary"
-                onClick={() => setOpenDetailModal(true)}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 0,
+              height: "40px",
+            }}
+          >
+            <Typography variant="h6">스팟 목록</Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={handleAddRow}
+                startIcon={<AddIcon />}
+                sx={{ mr: 1 }}
               >
-                <InfoIcon />
-              </IconButton>
-            )}
+                추가
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={handleAddTestData}
+                startIcon={<AddIcon />}
+                sx={{ mr: 1 }}
+              >
+                포커스 테스트
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={handleSaveCheckedRows}
+                startIcon={<SaveIcon />}
+                disabled={checkedRows.size === 0}
+                sx={{ mr: 1 }}
+              >
+                선택 저장 ({checkedRows.size})
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                size="small"
+                onClick={handleSaveAllChanges}
+                startIcon={<SaveIcon />}
+                disabled={dirtyRows.size === 0}
+                sx={{ mr: 1 }}
+              >
+                전체 저장 ({dirtyRows.size})
+              </Button>
+              {selectedSpot && (
+                <IconButton
+                  color="primary"
+                  onClick={() => setOpenDetailModal(true)}
+                >
+                  <InfoIcon />
+                </IconButton>
+              )}
+            </Box>
           </Box>
-        </Box>
 
-        <Paper ref={gridContainerRef} style={{ flex: 1, width: "100%" }}>
-          <TuiGrid
-            ref={gridRef}
-            data={spots}
-            columns={columns}
-            rowHeight={30}
-            bodyHeight={gridHeight}
-            width="100%"
-            scrollX={true}
-            scrollY={true}
-            rowHeaders={["checkbox", "rowNum"]}
-            onClick={handleGridClick}
-            onDblclick={handleCellDoubleClick}
-            rowClassNameAttr="rowClassName"
-            onEditingFinish={handleEditingFinish}
-            onCheck={(ev) => handleCheckboxChange({ ...ev, type: "check" })}
-            onUncheck={(ev) => handleCheckboxChange({ ...ev, type: "uncheck" })}
-            selectionUnit="row"
-          />
-        </Paper>
+          <Paper
+            ref={gridContainerRef}
+            style={{
+              flex: 1,
+              overflow: "hidden",
+              width: "100%",
+              maxWidth: "100%",
+            }}
+          >
+            <TuiGrid
+              ref={gridRef}
+              data={spots}
+              columns={columns}
+              rowHeight={30}
+              bodyHeight={gridHeight}
+              width="100%"
+              scrollX={true}
+              scrollY={true}
+              rowHeaders={["checkbox", "rowNum"]}
+              onClick={handleGridClick}
+              onDblclick={handleCellDoubleClick}
+              rowClassNameAttr="rowClassName"
+              onEditingFinish={handleEditingFinish}
+              onCheck={(ev) => handleCheckboxChange({ ...ev, type: "check" })}
+              onUncheck={(ev) =>
+                handleCheckboxChange({ ...ev, type: "uncheck" })
+              }
+              selectionUnit="row"
+            />
+          </Paper>
+        </div>
       </div>
 
       {/* 상세정보 모달 */}

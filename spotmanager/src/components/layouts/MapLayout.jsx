@@ -20,7 +20,7 @@ export default function MapLayout({ children }) {
         <Box
           sx={{
             flex: 1,
-            minWidth: 0,
+            // minWidth: 0,
             maxWidth: "50%",
             height: "100%",
             overflow: "hidden",
@@ -41,7 +41,7 @@ export default function MapLayout({ children }) {
         <Box
           sx={{
             flex: 1,
-            minWidth: 0,
+            // minWidth: 0,
             maxWidth: "50%",
             height: "100%",
             border: "1px solid #eee",

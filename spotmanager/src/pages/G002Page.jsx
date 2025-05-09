@@ -618,7 +618,7 @@ export default function G002Page({ mapData, setMapData }) {
               columns={columns}
               rowHeight={30}
               bodyHeight={gridHeight}
-              minBodyWidth={800}
+              // minBodyWidth={800}
               width="100%"
               scrollX={true}
               scrollY={true}

@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useCallback,
-  useEffect,
-} from "react";
+import React, { createContext, useState, useContext, useCallback } from "react";
 
 // 맵 컨텍스트 생성
 const MapContext = createContext(null);
@@ -15,26 +9,17 @@ export function MapProvider({ children }) {
   const [spots, setSpots] = useState([]);
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [internalEditMode, setInternalEditMode] = useState(false);
 
   // 맵 인스턴스 설정 함수
   const handleMapLoad = useCallback((mapInstance) => {
-    console.log("Map loaded and stored in context");
     setMap(mapInstance);
     setIsLoaded(true);
-  }, []);
-
-  // 맵 인스턴스 제거 함수
-  const handleMapUnmount = useCallback(() => {
-    setMap(null);
-    setIsLoaded(false);
   }, []);
 
   // 선택된 스팟으로 지도 이동
   const panToSpot = useCallback(
     (spot) => {
       if (isLoaded && map && spot) {
-        console.log("Panning to spot:", spot.name);
         map.panTo({ lat: spot.lat, lng: spot.lon });
       }
     },
@@ -52,11 +37,6 @@ export function MapProvider({ children }) {
     );
   }, []);
 
-  // 마커 선택 시 해당 마커의 정보를 반환
-  const getSelectedSpotInfo = () => {
-    return selectedSpot;
-  };
-
   // 공유할 값들
   const value = {
     map,
@@ -66,12 +46,8 @@ export function MapProvider({ children }) {
     selectedSpot,
     setSelectedSpot,
     handleMapLoad,
-    handleMapUnmount,
     panToSpot,
     updateMarkerPosition,
-    getSelectedSpotInfo,
-    internalEditMode,
-    setInternalEditMode,
   };
 
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

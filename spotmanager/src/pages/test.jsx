@@ -10,7 +10,6 @@ export default function Test() {
   const [mapData, setMapData] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
   const spotTypes = ["G001", "G002", "G003"];
-  const [updataData, setUpdataData] = useState(null);
 
   // 데이터 로드
   useEffect(() => {
@@ -77,12 +76,7 @@ export default function Test() {
       <MapLayout>
         <Box position="left" sx={{ width: "100%", height: "100%" }}>
           {selectedTab === 0 && (
-            <G001Page
-              mapData={mapData}
-              setMapData={handleDataChange}
-              updataData={updataData}
-              setUpdataData={setUpdataData}
-            />
+            <G001Page mapData={mapData} setMapData={handleDataChange} />
           )}
           {selectedTab === 1 && (
             <G002Page mapData={mapData} setMapData={handleDataChange} />
@@ -92,11 +86,7 @@ export default function Test() {
           )}
         </Box>
         <Box position="overlay" sx={{ width: "100%", height: "100%" }}>
-          <SpotMap
-            spots={mapData}
-            updataData={updataData}
-            setUpdataData={setUpdataData}
-          />
+          <SpotMap spots={mapData} />
         </Box>
       </MapLayout>
     </>
